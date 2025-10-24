@@ -1,15 +1,13 @@
 async function fetchData() {
-  const apiUrl = "https://api.genelpara.com/embed/para-birimleri.json";
+  const apiUrl = "https://finans.truncgil.com/today.json";
 
   try {
-    const response = await fetch(`https://cors-anywhere.herokuapp.com/${apiUrl}`, {
-      headers: { "x-requested-with": "XMLHttpRequest" }
-    });
+    const response = await fetch(apiUrl);
     const data = await response.json();
 
-    document.getElementById("usd").innerText = `💵 Dolar: ${data.USD.satis} ₺`;
-    document.getElementById("eur").innerText = `💶 Euro: ${data.EUR.satis} ₺`;
-    document.getElementById("btc").innerText = `₿ Bitcoin: ${data.BTC.satis} ₺`;
+    document.getElementById("usd").innerText = `💵 Dolar: ${data.USD.Selling} ₺`;
+    document.getElementById("eur").innerText = `💶 Euro: ${data.EUR.Selling} ₺`;
+    document.getElementById("btc").innerText = `₿ Bitcoin: ${data.BTC.Selling} ₺`;
   } catch (error) {
     console.error("Veri alınamadı:", error);
     document.querySelector("h1").innerHTML = "Veri alınamadı 😔";
