@@ -1,22 +1,22 @@
 async function fetchData() {
   try {
-    // 1️⃣ Döviz kurları (dolar, euro)
-    const forexRes = await fetch("https://api.exchangerate.host/latest?base=TRY&symbols=USD,EUR");
-    const forexData = await forexRes.json();
-    const usdTry = (1 / forexData.rates.USD).toFixed(2);
-    const eurTry = (1 / forexData.rates.EUR).toFixed(2);
+    // DÖVİZ verileri (USD, EUR)
+    const res = await fetch("https://api.exchangerate.host/latest?base=USD&symbols=TRY,EUR");
+    const data = await res.json();
 
-    // 2️⃣ Altın fiyatı (gram altın tahmini)
-    // Ortalama ons altın = 2350 USD civarı → gram = ons/31.1 * USD
-    const gramAltin = ((2350 / 31.1) * usdTry).toFixed(2);
+    const usdTry = data.rates.TRY.toFixed(2);
+    const eurTry = (data.rates.TRY / data.rates.EUR).toFixed(2);
 
-    // 3️⃣ Bitcoin fiyatı (USD -> TRY)
+    // ALTIN (ons USD -> gram TRY)
+    const gramAltin = ((2350 / 31.1) * usdTry).toFixed(2); // yaklaşık değer
+
+    // BTC verisi (USD üzerinden)
     const btcRes = await fetch("https://api.coindesk.com/v1/bpi/currentprice/USD.json");
     const btcData = await btcRes.json();
     const btcUsd = btcData.bpi.USD.rate_float;
     const btcTry = (btcUsd * usdTry).toFixed(0);
 
-    // 4️⃣ Ekrana yaz
+    // Ekrana yaz
     document.getElementById("usd").innerText = `💵 Dolar: ${usdTry} ₺`;
     document.getElementById("eur").innerText = `💶 Euro: ${eurTry} ₺`;
     document.getElementById("gram").innerText = `🥇 Gram Altın: ${gramAltin} ₺`;
