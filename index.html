@@ -4,39 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Finans Paneli</title>
-  <style>
-    body {
-      background-color: #0e1621;
-      color: white;
-      font-family: "Segoe UI", sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    h1 {
-      color: #00aaff;
-      margin-bottom: 25px;
-    }
-
-    .card {
-      background: #1c2632;
-      border-radius: 15px;
-      padding: 15px 30px;
-      margin: 8px;
-      font-size: 20px;
-      width: 280px;
-      text-align: center;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
-    }
-
-    .error {
-      color: #ff6666;
-      margin-top: 20px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>💰 Finans Paneli</h1>
@@ -45,35 +13,11 @@
   <div class="card" id="gram">🥇 Gram Altın: Yükleniyor...</div>
   <div class="card" id="btc">₿ Bitcoin: Yükleniyor...</div>
 
-  <script>
-    async function fetchData() {
-      try {
-        // DÖVİZ (USD ve EUR)
-        const res = await fetch("https://api.exchangerate.host/latest?base=USD&symbols=TRY,EUR");
-        const data = await res.json();
-        const usdTry = data.rates.TRY.toFixed(2);
-        const eurTry = (data.rates.TRY / data.rates.EUR).toFixed(2);
+  <div class="news">
+    <button id="newsBtn">📰 Ekonomi Haberleri</button>
+    <div id="newsContainer"></div>
+  </div>
 
-        // ALTIN (yaklaşık hesap - ons altın 2350 USD)
-        const gramAltin = ((2350 / 31.1) * usdTry).toFixed(2);
-
-        // BITCOIN
-        const btcRes = await fetch("https://api.coindesk.com/v1/bpi/currentprice/USD.json");
-        const btcData = await btcRes.json();
-        const btcUsd = btcData.bpi.USD.rate_float;
-        const btcTry = (btcUsd * usdTry).toFixed(0);
-
-        document.getElementById("usd").innerText = `💵 Dolar: ${usdTry} ₺`;
-        document.getElementById("eur").innerText = `💶 Euro: ${eurTry} ₺`;
-        document.getElementById("gram").innerText = `🥇 Gram Altın: ${gramAltin} ₺`;
-        document.getElementById("btc").innerText = `₿ Bitcoin: ${btcTry} ₺`;
-      } catch (err) {
-        document.querySelector("h1").innerHTML = "Veri alınamadı 😔";
-        console.error("Hata:", err);
-      }
-    }
-
-    fetchData();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
